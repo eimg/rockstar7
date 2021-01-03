@@ -1,37 +1,61 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from './Header';
 import Item from './Item';
 import Add from './Add';
 
 import { List, Divider } from '@material-ui/core';
 
+const api = 'http://localhost:8000/tasks';
+
 const App = props => {
-    const [ tasks, setTasks ] = useState([
-        { _id: 1, subject: 'Milk', status: 0 },
-        { _id: 2, subject: 'Bread', status: 1 },
-        { _id: 3, subject: 'Butter', status: 0 },
-    ]);
+    const [ tasks, setTasks ] = useState([]);
+
+    useEffect(() => {
+        fetch(api).then(res => res.json()).then(data => {
+            setTasks(data);
+        })
+    }, []);
 
     const add = subject => {
-        const _id = tasks[tasks.length - 1]._id + 1;
-
-        setTasks([
-            ...tasks, { _id, subject, status: 0 }
-        ]);
+        fetch(api, {
+            method: 'post',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify({ subject })
+        }).then(res => res.json()).then(item => {
+            setTasks([
+                ...tasks, item
+            ]);
+        });
     }
 
     const remove = _id => () => {
+        fetch(`${api}/${_id}`, { method: 'delete' });
         setTasks(tasks.filter(task => task._id !== _id));
     }
 
     const toggle = _id => () => {
         setTasks(tasks.map(task => {
-            if(task._id === _id) task.status = +!task.status;
+            let newStatus = +!task.status;
+            
+            if(task._id === _id) {
+                task.status = newStatus;
+                fetch(`${api}/${_id}`, {
+                    method: 'put',
+                    headers: {
+                        'content-type': 'application/json'
+                    },
+                    body: JSON.stringify({ status: newStatus })
+                });
+            }
+
             return task;
         }));
     }
 
     const clear = () => {
+        fetch(api, { method: 'delete' });
         setTasks(tasks.filter(task => task.status === 0));
     }
 
