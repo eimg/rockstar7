@@ -10,6 +10,7 @@ import Nav from './Nav';
 import Compose from './Compose';
 import Inbox from './Inbox';
 import Sent from './Sent';
+import Label from './Label';
 
 const App = () => {
 	let [ready, setReady] = useState(false);
@@ -61,7 +62,8 @@ const App = () => {
 					<Content>
 						<Route exact path="/" component={Inbox} />
 						<Route path="/compose" component={Compose} />
-						<Route path="/Sent" component={Sent} />
+						<Route path="/sent" component={Sent} />
+						<Route path="/label/:label" component={Label} />
 					</Content>
 				</Container>
 			</Drawer>

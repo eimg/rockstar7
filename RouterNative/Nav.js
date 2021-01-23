@@ -54,19 +54,34 @@ const Nav = props => {
 					<Left>
 						<Icon name="bookmark" />
 					</Left>
-					<Body><Text>Social</Text></Body>
+					<Body>
+						<Link to="/label/social" underlayColor="#f0f4f7" 
+							onPress={() => props.closeDrawer()}>
+							<Text>Social</Text>
+						</Link>
+					</Body>
 				</ListItem>
 				<ListItem icon>
 					<Left>
 						<Icon name="bookmark" />
 					</Left>
-					<Body><Text>Work</Text></Body>
+					<Body>
+						<Link to="/label/work" underlayColor="#f0f4f7" 
+							onPress={() => props.closeDrawer()}>
+							<Text>Work</Text>
+						</Link>
+					</Body>
 				</ListItem>
 				<ListItem icon>
 					<Left>
 						<Icon name="bookmark" />
 					</Left>
-					<Body><Text>Family</Text></Body>
+					<Body>
+						<Link to="/label/family" underlayColor="#f0f4f7" 
+							onPress={() => props.closeDrawer()}>
+							<Text>Family</Text>
+						</Link>
+					</Body>
 				</ListItem>
 			</List>
 		</Container>
